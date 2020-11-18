@@ -1,17 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import App from './app';
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
+import {mainRoutes} from './routes'
+
+import './index.css'
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+<BrowserRouter>
+    <Switch>
+        <Route path='/admin' render={(routerProps) => {return <App {...routerProps}/>}}/>
+        {
+            mainRoutes.map(
+                (route,key) => <Route key={key} path={route.pathname} component={route.component}/>
+            )
+        }
+        <Redirect to='/admin' from="/" exact />
+        <Redirect to='/404' />
+    </Switch>
+</BrowserRouter>
+, document.getElementById('root'));
