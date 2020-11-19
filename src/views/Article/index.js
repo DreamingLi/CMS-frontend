@@ -5,16 +5,15 @@ import { Card,
   Tag,
   message,
   Modal,
-  Typography,
   Tooltip
 } from 'antd'
 import moment from 'moment'
 import {getArticles,deleteArticleByID} from '../../requests/'
 import XLSX from 'xlsx'
-import { writeFile } from 'fs'
+
 
 const ButtonGroup = Button.Group
-const { Text } = Typography
+
 
 const titleDisplayMap ={
   id:'ID',
