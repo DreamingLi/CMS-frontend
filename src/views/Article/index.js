@@ -6,6 +6,7 @@ import { Card,
   message,
   Modal,
   Typography,
+  Tooltip
 } from 'antd'
 import moment from 'moment'
 import {getArticles,deleteArticleByID} from '../../requests/'
@@ -48,7 +49,11 @@ export default class ArticleList extends Component {
         key: key,
         render: (text,row,index) =>{
           const { amount } = row
-        return amount > 200 ? <Tag color="red">{amount}</Tag> : <Tag color="blue">{amount}</Tag> 
+        return (
+          <Tooltip title={amount > 200 ? 'above 200' : 'below 200'}>
+            <Tag color={ amount > 200 ? 'red':'green'}>{amount}</Tag>
+          </Tooltip>
+          )
         }
       }
     }
@@ -74,13 +79,20 @@ export default class ArticleList extends Component {
     key: 'action', 
     render: (text) =>{
       return <ButtonGroup>
-        <Button size='small' >Edit</Button>&nbsp;
+        <Button size='small' onClick={this.toEdit.bind(this, text)} >Edit</Button>&nbsp;
         <Button size='small' onClick={this.showDeleteArticle.bind(this,text)} danger>Delete</Button>
       </ButtonGroup>
     }
   })
   return columns
 }
+  toEdit = text =>{
+    this.props.history.push({
+      pathname:`/admin/article/edit/${text.id}`,
+      state:{text}
+    })
+  }
+
   showDeleteArticle = (text) =>{
     // Modal.confirm({
     //   title: <Text type='danger'>Confirm</Text>,

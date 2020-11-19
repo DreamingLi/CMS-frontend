@@ -10,8 +10,9 @@ const { Header, Content, Sider } = Layout;
 class Frame extends Component {
 
     render() {
+        const seletedKeyArr = this.props.location.pathname.split('/')
+        seletedKeyArr.length = 3
         return (
-
                 <Layout style={{minHeight:'100%'}}>
                     <Header className="header" style={{backgroundColor: '#fff'}}>
                         <div className="logo-wrap">
@@ -22,7 +23,7 @@ class Frame extends Component {
                         <Sider width={200} className="site-layout-background">
                             <Menu
                             mode="inline"
-                            selectedKeys={[this.props.location.pathname]}
+                            selectedKeys={seletedKeyArr.join('/')}
                             style={{ height: '100%', borderRight: 0 }}
                             >
                             {
