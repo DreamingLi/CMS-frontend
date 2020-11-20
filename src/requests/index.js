@@ -36,3 +36,12 @@ export const getArticles = (offset=0,limited=10) => {
 
 // delete article through article id
 export const deleteArticleByID = id => service.post(`vl/articleDelete/${id}`)
+
+// get article thought ID
+export const getArticleById = id =>{
+    return service.post(`vl/article/${id}`)
+}
+
+export const saveArticle = (id,data) =>{
+    return service.post(`vl/articleEdit/${id}`,data)
+}
