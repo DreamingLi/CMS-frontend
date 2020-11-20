@@ -1,7 +1,7 @@
 # Forum management system
 
-![Listimg]()
-
+![Listimg](https://github.com/DreamingLi/CMS-frontend/blob/main/img/List.PNG)
+![Editimg](https://github.com/DreamingLi/CMS-frontend/blob/main/img/Edit.PNG)
 # Run Project
 `git clone URL`
 install all packages the project needs
