@@ -16,7 +16,7 @@ const ButtonGroup = Button.Group
 
 
 const titleDisplayMap ={
-  id:'ID',
+  key:'ID',
   title:'TITLE',
   author:'AUTHOR',
   createAt:'CREATEAT',
@@ -66,9 +66,12 @@ export default class ArticleList extends Component {
         }
       }
     }
+
     return {
+      // 显示的title
       title: titleDisplayMap[item],
-      dataIndex: item,
+      // 数据的key
+      dataIndex: item, 
       key: key,
     }
   })
@@ -85,6 +88,7 @@ export default class ArticleList extends Component {
   })
   return columns
 }
+//点击修改后跳转弹窗
   toEdit = text =>{
     this.props.history.push({
       pathname:`/admin/article/edit/${text.id}`,
@@ -92,13 +96,8 @@ export default class ArticleList extends Component {
     })
   }
 
+  //点击删除按钮后,显示删除确定弹窗
   showDeleteArticle = (text) =>{
-    // Modal.confirm({
-    //   title: <Text type='danger'>Confirm</Text>,
-    //   content: `Are you sure to delete ${text.title}`,
-    //   okText: 'Confirm',
-    //   onOk(){deleteArticle().then(resp=> {console.log(resp)})}
-    // })
     this.setState({
       isShowArticleModal:true,
       deleteArticleTitle: text.title,
@@ -106,7 +105,7 @@ export default class ArticleList extends Component {
     })
   }
 
-  
+  //删除文章
   deleteArticle = () => {
     console.log(this.state.deleteArticleID)
     this.setState({
@@ -136,6 +135,7 @@ export default class ArticleList extends Component {
     )
   }
 
+  // 删除结束或取消后，隐藏对话框
   hideDeleteModal = () => {
     this.setState({
       isShowArticleModal:false,
@@ -143,12 +143,16 @@ export default class ArticleList extends Component {
       deleteArticleConfirmLoading: false
     })
   }
+
+  // 获取数据
   getData = () =>{
     this.setState({
       isLoading: true
     })
     getArticles(this.state.offset,this.state.limited).then(resp =>{
+
       const columnKeys = Object.keys(resp.list[0])
+      
       const columns = this.createColumns(columnKeys)
       this.setState({
         total:resp.total,
@@ -166,6 +170,9 @@ export default class ArticleList extends Component {
     )
   }
 
+  handleDatasSource = dataSource =>{
+
+  }
   // Due to the backend is a mock sever, so it could not process pagination funciton, if it could, the data we get would be
   // a part of the data, not all of them.
 
@@ -181,15 +188,6 @@ export default class ArticleList extends Component {
     )
   }
 
-  // onShowSizeChange = (current,size) =>{
-  //   this.setState({
-  //     offset: 0,
-  //     limited: size
-  //   },
-  //   () =>{
-  //     this.getData()
-  //   })
-  // }
   handleReload = () =>{
     this.getData()
   }
@@ -240,7 +238,6 @@ export default class ArticleList extends Component {
                 />
                     <Modal
                       title="Confirm"
-
                       visible={this.state.isShowArticleModal}
                       onOk={this.deleteArticle}
                       onCancel={this.hideDeleteModal}
