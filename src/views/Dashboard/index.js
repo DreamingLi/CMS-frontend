@@ -21,9 +21,9 @@ export default class Dashboard extends Component {
         const data = []
         getArticleAmount().then(
             resp =>{
-                resp.amount.map( item => {
-                    key.push(item.month)
-                    data.push(item.value)
+                resp.amount.forEach(element => {
+                    key.push(element.month)
+                    data.push(element.value)
                 })
             }
         ).then(

@@ -1,15 +1,48 @@
 import React, { Component } from 'react'
-import { Layout, Menu} from 'antd';
+import { Layout, Menu, Dropdown, Avatar,Badge} from 'antd';
 import { Link } from 'react-router-dom'
 import { adminRoutes } from '../../routes'
 import Logo from './logo192.png';
 import { withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
+
 const { Header, Content, Sider } = Layout;
 
-@withRouter
-class Frame extends Component {
+const mapState = state =>{
+    return {
+        notificationsCount: state.notifications.list.filter(
+            item => item.hasRead === false
+            ).length
+        }
+}
 
+@withRouter
+@connect(mapState)
+class Frame extends Component {
+    onDropdownMenuClick = ({key}) =>{
+        this.props.history.push(key)
+      }
+    menu = (
+        <Menu onClick={this.onDropdownMenuClick}>
+          <Menu.Item key="/admin/notifications" >
+            <Badge dot={Boolean(this.props.notificationsCount)}>
+                Notifications
+            </Badge>
+          </Menu.Item>
+          <Menu.Item key="/admin/settings">
+                Settings
+          </Menu.Item>
+          <Menu.Item key="/admin/exit">
+                Exit
+          </Menu.Item>
+    
+        </Menu>
+      );
+
+
+    
     render() {
+        console.log(this.props)
         const seletedKeyArr = this.props.location.pathname.split('/')
         seletedKeyArr.length = 3
         return (
@@ -17,6 +50,15 @@ class Frame extends Component {
                     <Header className="header" style={{backgroundColor: '#fff'}}>
                         <div className="logo-wrap">
                             <img id='logo' src={Logo} alt="logo" />
+                        </div>
+                        <div>
+                            <Dropdown overlay={this.menu}>
+                                <Badge count={this.props.notificationsCount} offset={[5,-1]}>
+                                    <div className="ant-dropdown-link" style={{alignItem:"center"}}>
+                                        <Avatar style={{ color: '#f56a00', backgroundColor: '#fde3cf' }}>L</Avatar>&nbsp;&nbsp;Welcome! Leo
+                                    </div>
+                                </Badge>
+                            </Dropdown>
                         </div>
                     </Header>
                     <Layout>
@@ -28,8 +70,8 @@ class Frame extends Component {
                             >
                             {
                                 adminRoutes.map(
-                                (item,key) => <Menu.Item key={item.pathname} icon={item.icon}><Link to={item.pathname} >{item.title}</Link></Menu.Item>
-                                )
+                                
+                                (item,key) => item.isNav? <Menu.Item key={item.pathname} icon={item.icon}><Link to={item.pathname} >{item.title}</Link></Menu.Item> : '')
                             }
                             </Menu>
                         </Sider>
