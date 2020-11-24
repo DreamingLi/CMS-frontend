@@ -1,50 +1,41 @@
 
 import React, { Component } from 'react'
-import { Card, Button, List, Avatar, Badge } from 'antd'
+import { Card, Button, List, Avatar, Badge,Spin } from 'antd'
 
 import { connect } from 'react-redux'
 
+import { markNotificationAsRead, markAllNotificationAsRead } from '../../actions/notifications'
+
 const mapState = state =>{
   const {
-    list = []
+    list = [],
+    isLoading
   } = state.notifications
   return {
     list,
+    isLoading
   }
 }
-@connect(mapState)
+@connect(mapState,{ markNotificationAsRead,markAllNotificationAsRead })
 class Notifications extends Component {
 
-    data = [
-        {
-          title: 'Ant Design Title 1',
-        },
-        {
-          title: 'Ant Design Title 2',
-        },
-        {
-          title: 'Ant Design Title 3',
-        },
-        {
-          title: 'Ant Design Title 4',
-        },
-      ];
-
-
+    data = [];
     render() {
-      console.log(this.props)
         return (
+          <Spin spinning={this.props.isLoading}>
             <Card
                 title="center"
                 bordered={false}
-                extra={<Button disabled={this.props.list.every(item=> item.hasRead ===true)}>Mark all as read</Button>}
+                extra={<Button disabled={this.props.list.every(item=> item.hasRead ===true)}
+                        onClick={this.props.markAllNotificationAsRead}
+                >Mark all as read</Button>}
             >
                 <List
                     itemLayout="horizontal"
                     dataSource={this.props.list}
                     renderItem={item => (
                     <List.Item 
-                      extra={ item.hasRead ? null:<Button>Mark as read</Button>}
+                      extra={ item.hasRead ? null:<Button onClick={this.props.markNotificationAsRead.bind(this,item.id)}>Mark as read</Button>}
                     >
                         <List.Item.Meta
                         avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
@@ -55,6 +46,7 @@ class Notifications extends Component {
                     )}
                 />
             </Card>
+          </Spin>
         )
     }
 }

@@ -5,6 +5,7 @@ import { adminRoutes } from '../../routes'
 import Logo from './logo192.png';
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { getNotificationList } from '../../actions/notifications.js'
 
 const { Header, Content, Sider } = Layout;
 
@@ -17,12 +18,17 @@ const mapState = state =>{
 }
 
 @withRouter
-@connect(mapState)
+@connect(mapState,{ getNotificationList} )
 class Frame extends Component {
+
+    componentDidMount(){
+        this.props.getNotificationList()
+    }
+
     onDropdownMenuClick = ({key}) =>{
         this.props.history.push(key)
       }
-    menu = (
+    renderMenu = () =>(
         <Menu onClick={this.onDropdownMenuClick}>
           <Menu.Item key="/admin/notifications" >
             <Badge dot={Boolean(this.props.notificationsCount)}>
@@ -42,7 +48,6 @@ class Frame extends Component {
 
     
     render() {
-        console.log(this.props)
         const seletedKeyArr = this.props.location.pathname.split('/')
         seletedKeyArr.length = 3
         return (
@@ -52,7 +57,7 @@ class Frame extends Component {
                             <img id='logo' src={Logo} alt="logo" />
                         </div>
                         <div>
-                            <Dropdown overlay={this.menu}>
+                            <Dropdown overlay={this.renderMenu}>
                                 <Badge count={this.props.notificationsCount} offset={[5,-1]}>
                                     <div className="ant-dropdown-link" style={{alignItem:"center"}}>
                                         <Avatar style={{ color: '#f56a00', backgroundColor: '#fde3cf' }}>L</Avatar>&nbsp;&nbsp;Welcome! Leo

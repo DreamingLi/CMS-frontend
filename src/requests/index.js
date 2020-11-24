@@ -49,3 +49,7 @@ export const saveArticle = (id,data) =>{
 export const getArticleAmount = () =>{
     return service.post('/vl/articleAmount')
 }
+
+export const getNotifications = () =>{
+    return service.post('/vl/notifications')
+}
