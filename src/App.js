@@ -2,10 +2,19 @@ import React, { Component } from 'react'
 import { adminRoutes } from './routes'
 import { Redirect, Route, Switch} from 'react-router-dom'
 import {Frame} from './components'
+import { connect } from 'react-redux'
+ 
+const mapState = state => ({
+  isLogin: state.user.isLogin
+})
 
-export default class app extends Component {
+@connect(mapState
+)
+class App extends Component {
   render() {
+    console.log(this.props)
     return (
+      this.props.isLogin ?
       <Frame>
         <Switch>
             {
@@ -23,7 +32,10 @@ export default class app extends Component {
             <Redirect to='/404' />
         </Switch>
       </Frame>
+      :
+      <Redirect to='login'/>
     )
   }
 }
 
+export default App

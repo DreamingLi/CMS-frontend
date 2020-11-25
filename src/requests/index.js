@@ -53,3 +53,7 @@ export const getArticleAmount = () =>{
 export const getNotifications = () =>{
     return service.post('/vl/notifications')
 }
+
+export const login = () =>{
+    return service.post('/api/vl/login')
+}
