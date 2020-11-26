@@ -1,22 +1,41 @@
 import React, { Component } from 'react'
 import { Form, Input, Button, Checkbox, Card } from 'antd';
-
+import { connect } from 'react-redux'
+import { login } from '../../actions/user'
+import { Redirect } from 'react-router-dom';
 
 import './login.css'
 
-export default class Login extends Component {
+
+@connect(
+    state => {
+        return {
+        isLogin: state.user.isLogin,
+        isLoading: state.user.isLoading
+    }},
+    { login }
+)
+class Login extends Component {
+
+    onFinish = args => {
+        this.props.login(args)
+    }
+
     render() {
+
         return (
+            this.props.isLogin ? 
+            <Redirect to='/admin' /> 
+            :
             <div className="login-wrap">
                 <Card
                     title="ADMIN"
                     className="login-card"
                 >
-                <Form
-                    
+                <Form          
                     name="basic"
                     initialValues={{ remember: true }}
-                    // onFinish={onFinish}
+                    onFinish={this.onFinish}
                     // onFinishFailed={onFinishFailed}
                     >
                     <Form.Item
@@ -24,7 +43,7 @@ export default class Login extends Component {
                         name="username"
                         rules={[{ required: true, message: 'Please input your username!' }]}
                     >
-                        <Input />
+                        <Input disabled={this.props.isLoading}/>
                     </Form.Item>
 
                     <Form.Item
@@ -32,15 +51,15 @@ export default class Login extends Component {
                         name="password"
                         rules={[{ required: true, message: 'Please input your password!' }]}
                     >
-                        <Input.Password />
+                        <Input.Password disabled={this.props.isLoading}/>
                     </Form.Item>
 
                     <Form.Item name="remember" valuePropName="checked">
-                        <Checkbox>Remember me</Checkbox>
+                        <Checkbox disabled={this.props.isLoading}>Remember me</Checkbox>
                     </Form.Item>
 
                     <Form.Item >
-                        <Button type="primary" htmlType="submit">
+                        <Button type="primary" htmlType="submit" loading={this.props.isLoading}>
                         Submit
                         </Button>
                     </Form.Item>
@@ -50,3 +69,5 @@ export default class Login extends Component {
         )
     }
 }
+
+export default Login

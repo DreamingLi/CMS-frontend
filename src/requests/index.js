@@ -6,6 +6,10 @@ const service = axios.create({
     baseURL: isDev ? 'http://rap2api.taobao.org/app/mock/270644/api' : ''
 })
 
+const serviceWithoutInterceptors = axios.create({
+    baseURL: isDev ? 'http://rap2api.taobao.org/app/mock/270644/api' : ''
+})
+
 service.interceptors.request.use(
     config => {config.data = Object.assign({},config.data,{
         // authToken: window.localStorage.getItem('authToken')
@@ -54,6 +58,6 @@ export const getNotifications = () =>{
     return service.post('/vl/notifications')
 }
 
-export const login = () =>{
-    return service.post('/api/vl/login')
+export const loginRequest = userInfo =>{
+    return serviceWithoutInterceptors.post('/vl/login',userInfo)
 }

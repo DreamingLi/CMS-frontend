@@ -8,11 +8,9 @@ const mapState = state => ({
   isLogin: state.user.isLogin
 })
 
-@connect(mapState
-)
+@connect(mapState)
 class App extends Component {
   render() {
-    console.log(this.props)
     return (
       this.props.isLogin ?
       <Frame>
@@ -33,7 +31,7 @@ class App extends Component {
         </Switch>
       </Frame>
       :
-      <Redirect to='login'/>
+      <Redirect to='/login'/>
     )
   }
 }
