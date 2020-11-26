@@ -3,7 +3,7 @@
 This system was developed for the content management of forum articles. At present, the functions of the article part (such as article list, article content modification, export to Excel) have been completed.
 
 Currently the backend is a mock server. 
-It will randomly generate data and then return. So when testing, it is normal if the data is different from the previous data
+It will randomly generate data and then return. So when testing, it is correct if the data is different from the previous data
 ![Listimg](https://github.com/DreamingLi/CMS-frontend/blob/main/img/List.PNG)
 ![Editimg](https://github.com/DreamingLi/CMS-frontend/blob/main/img/Edit.PNG)
 ## Run Project
