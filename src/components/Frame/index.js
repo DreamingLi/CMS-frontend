@@ -6,6 +6,7 @@ import Logo from './logo192.png';
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { getNotificationList } from '../../actions/notifications.js'
+import { logout } from '../../actions/user'
 
 const { Header, Content, Sider } = Layout;
 
@@ -13,12 +14,15 @@ const mapState = state =>{
     return {
         notificationsCount: state.notifications.list.filter(
             item => item.hasRead === false
-            ).length
+            ).length,
+        avatar: state.user.avatar,
+        displayName: state.user.displayName
         }
+
 }
 
 @withRouter
-@connect(mapState,{ getNotificationList} )
+@connect(mapState,{ getNotificationList, logout} )
 class Frame extends Component {
 
     componentDidMount(){
@@ -26,7 +30,12 @@ class Frame extends Component {
     }
 
     onDropdownMenuClick = ({key}) =>{
-        this.props.history.push(key)
+        if (key === '/logout'){
+            this.props.logout()
+        }else{
+            this.props.history.push(key)
+        }
+
       }
     renderMenu = () =>(
         <Menu onClick={this.onDropdownMenuClick}>
@@ -38,7 +47,7 @@ class Frame extends Component {
           <Menu.Item key="/admin/settings">
                 Settings
           </Menu.Item>
-          <Menu.Item key="/admin/exit">
+          <Menu.Item key="/logout">
                 Exit
           </Menu.Item>
     
@@ -60,7 +69,10 @@ class Frame extends Component {
                             <Dropdown overlay={this.renderMenu}>
                                 <Badge count={this.props.notificationsCount} offset={[5,-1]}>
                                     <div className="ant-dropdown-link" style={{alignItem:"center"}}>
-                                        <Avatar style={{ color: '#f56a00', backgroundColor: '#fde3cf' }}>L</Avatar>&nbsp;&nbsp;Welcome! Leo
+                                        <Avatar src={this.props.avatar}>
+                                            {this.props.displayName}
+                                        </Avatar>
+                                        &nbsp;&nbsp;Welcome! {this.props.displayName}
                                     </div>
                                 </Badge>
                             </Dropdown>

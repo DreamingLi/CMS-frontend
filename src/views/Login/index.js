@@ -13,7 +13,9 @@ import './login.css'
         isLogin: state.user.isLogin,
         isLoading: state.user.isLoading
     }},
-    { login }
+    { 
+        login
+    }
 )
 class Login extends Component {
 

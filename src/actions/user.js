@@ -18,21 +18,38 @@ const loginSuccess = userInfo =>{
 const loginFailed = () =>{
     window.localStorage.removeItem('authToken')
     window.sessionStorage.removeItem('authToken')
+    window.localStorage.removeItem('userInfo')
+    window.sessionStorage.removeItem('userInfo')
     return ({
         type:actionType.LOGIN_FAILED
     })
 }
 
+export const logout = () => {
+    return dispatch => {
+        dispatch(loginFailed())
+    }
+}
+
 export const login = userInfo => {
     return dispatch => {
         dispatch(startLogin())
+
         loginRequest(userInfo).then(
             resp =>{
                 if (resp.data.code === 200 ){
-                    if (userInfo.remember === true){
-                        window.localStorage.setItem('authToken', resp.data.data.authToken)
+                    const remember = userInfo.remember
+                    const {
+                        authToken,
+                        ...userReceiveInfo
+                    } = resp.data.data
+                    console.log( )
+                    if (remember === true){
+                        window.localStorage.setItem('authToken', authToken)
+                        window.localStorage.setItem('userInfo', JSON.stringify(userReceiveInfo))
                     }else{
-                        window.sessionStorage.setItem('authToken', resp.data.data.authToken)
+                        window.sessionStorage.setItem('authToken', authToken)
+                        window.sessionStorage.setItem('userInfo', JSON.stringify(userReceiveInfo))
                     }
                     dispatch(loginSuccess(resp.data.data))
                 }else{
