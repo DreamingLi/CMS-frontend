@@ -5,7 +5,8 @@ import {Frame} from './components'
 import { connect } from 'react-redux'
  
 const mapState = state => ({
-  isLogin: state.user.isLogin
+  isLogin: state.user.isLogin,
+  role: state.user.role
 })
 
 @connect(mapState)
@@ -18,11 +19,19 @@ class App extends Component {
             {
               adminRoutes.map(
                 (route,key) =>{
-                  return <Route 
-                  key={key} 
-                  path={route.pathname} 
-                  exact={route.exact}
-                  render={routerProps =>{ return <route.component {...routerProps} />}}/>
+                  return(
+                  <Route 
+                    key={key} 
+                    path={route.pathname} 
+                    exact={route.exact}
+                    render={
+                      routerProps =>{ 
+                        const hasPermission = route.roles.includes(this.props.role)
+                        return hasPermission ? <route.component {...routerProps} /> : <Redirect to="/admin/noauth" />
+                      }
+                    }
+                  />
+                  )
                 }
               )
             }

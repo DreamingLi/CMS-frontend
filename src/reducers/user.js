@@ -29,7 +29,12 @@ export default (state = initState, action) => {
                 avatar: '',
                 role: '',
                 isLogin: false,
-                isLoading: false
+                isLoading: false,
+            })
+        case actionType.CHANGE_AVATAR:
+            return ({
+                ...state,
+                avatar: action.payload.avatarUrl
             })
         default:
             return state

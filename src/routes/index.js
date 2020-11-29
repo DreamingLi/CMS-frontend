@@ -5,7 +5,9 @@ import {
     NotFound,
     ArticleList,
     ArticleEdit,
-    Notifications
+    Notifications,
+    NoAuth,
+    Profile
 } from '../views'
 import { DashboardOutlined,SettingOutlined,UnorderedListOutlined } from '@ant-design/icons';
 
@@ -23,28 +25,44 @@ export const adminRoutes = [{
     component: Dashboard,
     title: 'DASHBOARD',
     icon: <DashboardOutlined />,
-    isNav:  true
+    isNav:  true,
+    roles: ['001','002','003']
 },{
     pathname: '/admin/settings',
     component: Settings,
     title: 'SETTINGS',
     icon: <SettingOutlined />,
-    isNav: true
+    isNav: true,
+    roles: ['001']
 },{
     pathname: '/admin/article',
     component: ArticleList,
     exact: true,
     title: 'LIST',
     icon: <UnorderedListOutlined />,
-    isNav: true
+    isNav: true,
+    roles: ['001','002']
 },{
     pathname: '/admin/article/edit/:id',
     component: ArticleEdit,
-    isNav: false
+    isNav: false,
+    roles: ['001']
 },
 {
     pathname: '/admin/notifications',
     component: Notifications,
+    isNav: false,
+    roles: ['001','002','003']
+},
+{
+    pathname: '/admin/noauth',
+    component: NoAuth,
     isNav: false
+},
+{
+    pathname: '/admin/profile',
+    component: Profile,
+    isNav: false,
+    roles: ['001','002','003']
 }
 ]

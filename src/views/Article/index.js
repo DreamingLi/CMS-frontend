@@ -150,10 +150,9 @@ export default class ArticleList extends Component {
       isLoading: true
     })
     getArticles(this.state.offset,this.state.limited).then(resp =>{
-
-      const columnKeys = Object.keys(resp.list[0])
-      
+      const columnKeys = Object.keys(resp.list[0])   
       const columns = this.createColumns(columnKeys)
+      if (!this.updater.isMounted(this)) return 
       this.setState({
         total:resp.total,
         columns,
@@ -211,9 +210,12 @@ export default class ArticleList extends Component {
     XLSX.utils.book_append_sheet(wb,ws,'SheetJS');
     XLSX.writeFile(wb,`articles-${moment().format('YYYY-MM-DD')}.xlsx`)
   }
+
   componentDidMount(){
     this.getData()
+
   }
+
     render() {
         return (
             <Card title="Article List" 

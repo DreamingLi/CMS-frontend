@@ -46,7 +46,6 @@ export const markAllNotificationAsRead = () => {
 export const getNotificationList = () => {
 
     return dispatch => {
-        console.log(1111)
         dispatch(startMarkAsRead())
         getNotifications().then(
             resp =>{
